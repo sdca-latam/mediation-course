@@ -129,7 +129,7 @@ March 31, in the afternoon as we will making updates until then.
     Version control -\> Git"
 
 3.  Keeping RStudio open, open your browser and go to our
-    [repository](https://github.com/sdca-latam/mediation-course)
+    [repository](https://github.com/sdca-latam/mediation-course.git)
 
 4.  Then, Click on the green "code" icon and copy-paste
 
@@ -141,7 +141,7 @@ March 31, in the afternoon as we will making updates until then.
 ### Download the data
 
 If you want to only download the workshop data. You can go to
-[here](https://https://github.com/sdca-latam/mediation-course/tree/main/data)
+[here](https://github.com/sdca-latam/mediation-course/tree/main/data)
 for the NHANES data. Click "download raw file" in the top right corner
 after you have clicked on the specific file.
 
