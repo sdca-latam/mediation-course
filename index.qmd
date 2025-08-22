@@ -1,92 +1,118 @@
-# Welcome to the IDEG workshop on Mediation Analysis and Directed Acyclic Graphs {.unnumbered}
+# Bienvenidas al taller {.unnumbered}
 
-During this short workshop, you will be introduced to traditional
-mediation approaches before exploring the theory of causal mediation, as
-a method to investigate disease mechanisms in the context of diabetes.
+Este taller introductorio forma parte de las actividades académicas de
+la [estrategia de internacionalización del Steno Diabetes Center
+Aarhus](https://steno-aarhus.github.io/internationalization/) que busca
+establecer vínculos con investigadores de instituciones en América
+Latina que realizan investigación en diabetes.
 
-We hope this will be the beginning of your journey in mediation analysis
-and open the door to more theory-grounded studies in aetiological
-diabetes epidemiology! The workshop is offered as part of the
-[International Diabetes Epidemiology Group (IDEG) Trainee
-Workshop](https://www.ideg-diabetes.org/idegtraineeworkshop) in Bangkok,
-Thailand, on 3 April 2025.
+En este taller serás introducido al análisis de mediación tradicional
+antes de entrar de lleno al análisis de mediación causal cómo método
+para investigar los mecanismos detrás de la ocurrencia de un evento. El
+taller combina presentaciones breves, con sesiones donde trabajamos con
+el código sobre la marcha y discusiones grupales.
 
-The workshop requires some pre-workshop preparation to install R and R
-Studio as well as some necessary packages and data. Furthermore, for
-those unfamiliar with Directed Acyclic Graphs (DAGs), some introductory
-reading and exercises are included in the pre-workshop materials.
+Esperamos que este taller introductorio despierte su interés por
+investigar y entender las causas que conllevan al desarrollo de una
+enfermedad crónica como la diabetes, u otro desenlace de su interés.
 
-The face-to-face workshop will consist of a combination of brief
-lectures and hands-on coding practice in R code-along sessions. We
-encourage students to discuss the materials and network during the
-entire Trainee Workshop. The instructors will be available to answer
-questions throughout the day.
-
-🗓 April 3, 2025 🏨 Bangkok, Thailand
-
-### The target audience
-
-PhD students and postdoctoral researchers working with clinical and
-epidemiological studies of diabetes, its causes and consequencesits
-endocrinology, that are planning to conduct mediation analysis or that
-are interested in widening their analysis toolkit.
-
-### ⚠️ Prerequisites
-
-To make the most of our workshop in Bangkok, please complete the
-pre-workshop tasks before you arrive. This will ensure we can start our
-sessions smoothly and dive right into the content!
-
-1.  Finish the [Pre-Workshop Tasks](/preamble/precourse.qmd)
-2.  Get familiar with [Directed Acyclic
-    Graphs](/preamble/Introduction-to-DAGs.qmd)
-
-## Schedule
-
-We will combine lectures with code-along sessions, group work, and
-discussions.
-
-::: panel-tabset
-### April 3, 2025
-
-| Time        | Content                                         |
-|-------------|-------------------------------------------------|
-| 12.45-12.55 | Introduction to the workshop and the topic (DW) |
-| 12.55-13.15 | Traditional mediation analysis (DW)             |
-| 13.15-13.30 | Causal mediation analysis: introduction (DW)    |
-| 13.30-13.45 | Causal mediation analysis: estimates (JZ)       |
-| 13.45-14.00 | Group work + Reflections (JZ)                   |
-
-Instructors: Daniel Witte (DW), Jie Zhang (JZ)
+::: callout-note
+Este taller es una replica del taller corto sobre gráficos acíclicos
+dirigídos y análisis de mediación impartido por Daniel Witte y Jie
+Zhang, celebrado el 3 de Abril de 2025 en Bangkok, Thailandia previo a
+la reunión del Grupo Internacional de Epidemiología de la Diabetes por
+lo que el contenido de las sesiones está escrito en inglés.
 :::
 
-## Building the workshop
+## Objetivo general del curso
 
-The worskhop material was created using [Quarto](https://quarto.org/) to
-write the lessons and create the book format,
-[GitHub](https://github.com/) to host the [Git](https://git-scm.com/)
-repository of the material, and [GitHub
-Actions](https://github.com/features/actions) with
-[Netlify](https://www.netlify.com/) to create and host the website. The
-materials for this workshop are adapted from the Mediation Analysis
-Course. You can find the full materials for that course on the
+Introducir a las participantes al análisis de mediación causal y
+proveerles el conocimiento, herramientas y habilidades para investigar
+los mecanismos que conducen al desarrollo de enfermedades.
+
+### Audiencia meta
+
+Estudiantes de la maestría en ciencia de datos que planean realizar
+análisis de mediación causal o que están interesados en ampliar su kit
+de herramientas analíticas.
+
+### ⚠️ Prerequisitos
+
+El taller requiere algo de preparación previa. Es necesario intalar R, R
+Studio y una serie de paquetes de R y bases de datos. Incluímos una
+serie de lecturas y ejercicios en el material pre-taller para aquellos
+participantes que no están familiarizados con los gráficos acíclicos
+dirigidos (DAGs).
+
+Para aprovechar al máximo este taller introductorio por favor completen
+las tareas pre-taller antes de participar. De este modo nos aseguraremos
+de comenzar con el pie derecho para sumergirnos directo en el contenido.
+
+1.  Finalicen las [Pre-Workshop Tasks](/preamble/precourse.qmd)
+2.  Familiaricense con [Directed Acyclic
+    Graphs](/preamble/Introduction-to-DAGs.qmd)
+
+## Programa
+
+🗓 Septiembre 1 y 2, 2025 🏨 Benemérita Universidad Autónoma de Puebla,
+Puebla, México
+
+::: panel-tabset
+### Septiembre 1
+
+| Hora        | Tema                                      |
+|-------------|-------------------------------------------|
+| 13.00-13:30 | Introducción al taller y motivación (JLF) |
+| 13:30-14:30 | Gráficos acíclicos dirigidos (OS)         |
+| 14:30-14:40 | Pausa breve                               |
+| 14:40-16:10 | Análisis de mediación tradicional (JLF)   |
+| 16:10-16:30 | Reflexiones grupales (todas)              |
+
+### Septiembre 2
+
+| Hora        | Tema                                           |
+|-------------|------------------------------------------------|
+| 13.00-13.10 | Recap del día anterior (JLF)                   |
+| 13.10-14.40 | Análisis de mediación causal: intro (OS)       |
+| 14.40-14.50 | Pausa breve                                    |
+| 14.50-16.20 | Análsis de mediación causal: estimaciones (OS) |
+| 16.20-16.40 | Reflexiones grupales (todas)                   |
+| 16.40-16.50 | Observaciones finales y cierre del taller      |
+
+Instructores: José Luis Flores Guerrero (JLF), Omar Silverman (OS)
+:::
+
+## Construyendo el taller
+
+El material del taller se generó utilizando
+[Quarto](https://quarto.org/) para escribir las sesiones y generarlo en
+un formato tipo libro, [GitHub](https://github.com/) para albergar
+[Git](https://git-scm.com/) el material del repositorio y [GitHub
+Actions](https://github.com/features/actions) para crear y albergar el
+sitio web. El material de este taller se adaptó del curso "Modern
+mediation analysis for basic, clinical and epidemiological research in
+diabetes and endocrinology". Puedes consultar el material de ese curso
+en el repositorio de GitHub
 [`steno-aarhus/mediation-analysis-course`](https://github.com/steno-aarhus/IDEG-mediation-course)
-GitHub repository.
 
-## Re-use and licensing {#licensing}
+## Re-uso y autorización {#licensing}
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img src="https://i.creativecommons.org/l/by/4.0/80x15.png" alt="Creative Commons License" style="border-width:0"/></a>
 
-The workshop is licensed under the [Creative Commons Attribution 4.0
-International License](https://creativecommons.org/licenses/by/4.0/) so
-the material can be used, re-used, and modified, as long as there is
-attribution to this source.
+El taller está autorizado bajo la [Creative Commons Attribution 4.0
+International License](https://creativecommons.org/licenses/by/4.0/),
+por lo que el material se puede usar, re-utilizar o modificar, siempre y
+cuando se refiera a esta fuente.
 
-## Acknowledgements
+## Agradecimientos
 
-This workshop is adapted from the ['Mediation Analysis
-Course'](https://github.com/steno-aarhus/mediation-analysis-course)
-developed by Daniel B. Ibsen, Omar Silverman, Jie Zhang from Steno
-Diabetes Center Aarhus in Denmark, and Nima Hejarzi and Ivan Diaz from
-the US, which was sponsored by the Danish Diabetes and Endocrine
-Academy.
+Este taller es una réplica del taller [IDEG Mediation
+Workshop](https://steno-aarhus.github.io/IDEG-mediation-course/)
+impartido por Daniel Witte y Jie Zhang, qué a su vez lo adaptaron del
+curso [Modern mediation analysis for basic, clinical and epidemiological
+research in diabetes and
+endocrinology](https://github.com/steno-aarhus/mediation-analysis-course)
+que fue desarrollado por Daniel B. Ibsen, Omar Silverman, Jie Zhang del
+Steno Diabetes Center Aarhus en Dinamarca, y por Nima Hejarzi e Iván
+Díaz de Estados Unidos; y fue auspiciado por la Academia Danesa de
+Diabetes y Endocrinología
