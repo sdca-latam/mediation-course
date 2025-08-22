@@ -191,8 +191,8 @@ ggdag(collider) +
 ```
 
 It is important to identify potential colliders, because adjusting for
-or stratifying by a them (conditioning on a collider) can **introduce**
-a spurious association between the exposure and the outcome.
+or stratifying by them (conditioning on a collider) can **introduce** a
+spurious association between the exposure and the outcome.
 
 Consider the relationship between Body Mass Index (BMI) and Type 2
 Diabetes (T2D). Both BMI and T2D are causes of increased incidence of
@@ -323,7 +323,7 @@ diabetes), and should therefore be measured and adjusted for. Potential
 confounders could include factors such as **diet, neighborhood
 environment, income, and genetic predisposition**.
 
-**Identifying furhter potential colliders**: These are variables that
+**Identifying further potential colliders**: These are variables that
 are dependent on both the exposure (physical activity) and the outcome
 (Type 2 diabetes). We should avoid selecting (stratifying) or otherwise
 conditioning on colliders. **Can you think of 1 or 2 additional
@@ -340,7 +340,7 @@ research, as they force researchers to explicitly state their
 assumptions about how various variables are causally linked to each
 other.
 
-DAGS help researchers to identify whether causal effects can be
+DAGs help researchers to identify whether causal effects can be
 estimated, and which adjustments are necessary, optional or should be
 avoided to obtain unbiased results.
 
