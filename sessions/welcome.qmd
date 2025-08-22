@@ -2,16 +2,15 @@
 
 ## Welcome
 
-Welcome to the short IDEG workshop on Directed Acyclic Graphs (DAGs) and
-mediation analysis!
+Welcome to the introductory workshop to causal mediation analysis!
 
-Instrctors: Daniel Witte, Jie Zhang
+Instructors: José Luis Flores Guerrero and Omar Silverman
 
-Time duration: 75 mins
+Time duration: \~7 hours
 
 # Workshop Outline
 
-During this 75-minute workshop, you will learn about traditional mediation
+During this workshop, you will learn about traditional mediation
 approaches before exploring the theory of causal mediation, accompanied
 by hands-on R coding practice. We hope this will be the beginning of
 your journey in mediation analysis and open the door to more interesting
@@ -47,7 +46,7 @@ research studies!
 
 ## Important things before the workshop
 
-To make the most of our training workshop in Bangkok, please complete the
+To make the most of our training workshop, please complete the
 pre-workshop tasks before you arrive. This will ensure we can start our
 session smoothly and dive right into the content!
 
@@ -61,9 +60,12 @@ session smoothly and dive right into the content!
 
 ## Acknowledgement
 
-This workshop is developed based on ['Mediation Analysis Course'](https://analysis-of-mechanisms.netlify.app/) developed
-by Daniel B. Ibsen, Omar Silverman, Jie Zhang from Steno Diabetes Center
-Aarhus in Denmark, and Nima Hejarzi and Ivan Diaz from the US, which is
+This workshop is a replica of the [IDEG Mediation
+Workshop](https://steno-aarhus.github.io/IDEG-mediation-course/) taught
+in Bangkok developed based on ['Mediation Analysis
+Course'](https://analysis-of-mechanisms.netlify.app/) developed by
+Daniel B. Ibsen, Omar Silverman, Jie Zhang from Steno Diabetes Center
+Aarhus in Denmark, and Nima Hejarzi and Ivan Diaz from the US, which was
 sponsored by the Danish Diabetes and Endocrine Academy.
 
 The repository contains the lesson, lecture, and assignment material for
