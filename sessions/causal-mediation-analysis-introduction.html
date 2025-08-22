@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Taller de análisis de mediación causal - 6&nbsp; Introduction to causal mediation analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../appendix/dags.html" rel="next">
+<link href="../sessions/traditional-mediation-analysis.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="../site_libs/viz-1.8.2/viz.js"></script>
+<link href="../site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+<script src="../site_libs/grViz-binding-1.0.11/grViz.js"></script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../sessions/welcome.html">Sessions</a></li><li class="breadcrumb-item"><a href="../sessions/causal-mediation-analysis-introduction.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to causal mediation analysis</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Taller de análisis de mediación causal</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/sdca-latam/mediation-course" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenidos al taller introductorio sobre análisis de mediación causal</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Preamble</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preamble/precourse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pre-workshop tasks</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preamble/Introduction-to-DAGs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Directed Acyclic Graphs (DAG)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Sessions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../sessions/welcome.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Mediation Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../sessions/motivation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Motivation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../sessions/traditional-mediation-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Traditional mediation analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../sessions/causal-mediation-analysis-introduction.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to causal mediation analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix/dags.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">DAGs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix/reading-list.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#recall-the-major-limitations-of-traditional-mediation-methods" id="toc-recall-the-major-limitations-of-traditional-mediation-methods" class="nav-link active" data-scroll-target="#recall-the-major-limitations-of-traditional-mediation-methods"><span class="header-section-number">6.0.1</span> Recall the major limitations of traditional mediation methods:</a></li>
+  <li><a href="#causal-mediation-analysis-is-an-extension-of-the-traditional-approach" id="toc-causal-mediation-analysis-is-an-extension-of-the-traditional-approach" class="nav-link" data-scroll-target="#causal-mediation-analysis-is-an-extension-of-the-traditional-approach"><span class="header-section-number">6.0.2</span> Causal mediation analysis is an extension of the traditional approach:</a></li>
+  <li><a href="#what-is-a-cause" id="toc-what-is-a-cause" class="nav-link" data-scroll-target="#what-is-a-cause"><span class="header-section-number">6.1</span> What is a cause?</a>
+  <ul class="collapse">
+  <li><a href="#individual-causal-effect" id="toc-individual-causal-effect" class="nav-link" data-scroll-target="#individual-causal-effect"><span class="header-section-number">6.1.1</span> Individual causal effect</a></li>
+  <li><a href="#average-causal-effect" id="toc-average-causal-effect" class="nav-link" data-scroll-target="#average-causal-effect"><span class="header-section-number">6.1.2</span> Average causal effect</a></li>
+  </ul></li>
+  <li><a href="#from-causal-effects-to-causal-mediation" id="toc-from-causal-effects-to-causal-mediation" class="nav-link" data-scroll-target="#from-causal-effects-to-causal-mediation"><span class="header-section-number">6.2</span> From Causal effects to Causal mediation</a></li>
+  <li><a href="#causal-mediation-estimation-approaches" id="toc-causal-mediation-estimation-approaches" class="nav-link" data-scroll-target="#causal-mediation-estimation-approaches"><span class="header-section-number">6.3</span> Causal Mediation Estimation Approaches</a></li>
+  <li><a href="#casual-mediation-effects" id="toc-casual-mediation-effects" class="nav-link" data-scroll-target="#casual-mediation-effects"><span class="header-section-number">6.4</span> Casual Mediation Effects</a>
+  <ul class="collapse">
+  <li><a href="#defining-estimands" id="toc-defining-estimands" class="nav-link" data-scroll-target="#defining-estimands"><span class="header-section-number">6.4.1</span> Defining estimands</a></li>
+  <li><a href="#effect-decomposition" id="toc-effect-decomposition" class="nav-link" data-scroll-target="#effect-decomposition"><span class="header-section-number">6.4.2</span> Effect decomposition</a></li>
+  <li><a href="#proportions" id="toc-proportions" class="nav-link" data-scroll-target="#proportions"><span class="header-section-number">6.4.3</span> Proportions</a></li>
+  </ul></li>
+  <li><a href="#why-causal-mediation-analysis" id="toc-why-causal-mediation-analysis" class="nav-link" data-scroll-target="#why-causal-mediation-analysis"><span class="header-section-number">6.5</span> Why Causal Mediation Analysis?</a></li>
+  <li><a href="#core-causal-assumptions" id="toc-core-causal-assumptions" class="nav-link" data-scroll-target="#core-causal-assumptions"><span class="header-section-number">6.6</span> Core Causal Assumptions</a>
+  <ul class="collapse">
+  <li><a href="#association-vs-causation" id="toc-association-vs-causation" class="nav-link" data-scroll-target="#association-vs-causation"><span class="header-section-number">6.6.1</span> Association vs Causation</a></li>
+  <li><a href="#confounding-assumptions-in-causal-mediation-analysis" id="toc-confounding-assumptions-in-causal-mediation-analysis" class="nav-link" data-scroll-target="#confounding-assumptions-in-causal-mediation-analysis"><span class="header-section-number">6.6.2</span> Confounding assumptions in Causal Mediation Analysis</a></li>
+  </ul></li>
+  <li><a href="#practical-examples-using-the-r-package" id="toc-practical-examples-using-the-r-package" class="nav-link" data-scroll-target="#practical-examples-using-the-r-package"><span class="header-section-number">6.7</span> Practical Examples using the R package</a></li>
+  <li><a href="#example-not-using-the-r-package" id="toc-example-not-using-the-r-package" class="nav-link" data-scroll-target="#example-not-using-the-r-package"><span class="header-section-number">6.8</span> Example-not using the R package</a>
+  <ul class="collapse">
+  <li><a href="#controlled-direct-effect-1" id="toc-controlled-direct-effect-1" class="nav-link" data-scroll-target="#controlled-direct-effect-1"><span class="header-section-number">6.8.1</span> Controlled direct effect</a></li>
+  <li><a href="#pure-natural-direct-effect-1" id="toc-pure-natural-direct-effect-1" class="nav-link" data-scroll-target="#pure-natural-direct-effect-1"><span class="header-section-number">6.8.2</span> (Pure) natural direct effect</a></li>
+  <li><a href="#total-natural-direct-effect-1" id="toc-total-natural-direct-effect-1" class="nav-link" data-scroll-target="#total-natural-direct-effect-1"><span class="header-section-number">6.8.3</span> (Total) natural direct effect</a></li>
+  <li><a href="#total-natural-indirect-effect-1" id="toc-total-natural-indirect-effect-1" class="nav-link" data-scroll-target="#total-natural-indirect-effect-1"><span class="header-section-number">6.8.4</span> Total natural indirect effect</a></li>
+  <li><a href="#pure-natural-indirect-effect-1" id="toc-pure-natural-indirect-effect-1" class="nav-link" data-scroll-target="#pure-natural-indirect-effect-1"><span class="header-section-number">6.8.5</span> Pure natural indirect effect</a></li>
+  <li><a href="#total-effect" id="toc-total-effect" class="nav-link" data-scroll-target="#total-effect"><span class="header-section-number">6.8.6</span> Total effect</a></li>
+  <li><a href="#proportion-mediation" id="toc-proportion-mediation" class="nav-link" data-scroll-target="#proportion-mediation"><span class="header-section-number">6.8.7</span> Proportion mediation</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6.9</span> References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Introduction to causal mediation analysis</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>In this session we will go over fundamental concepts of causal inference in general and then focus more specifically on causal mediation analysis.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Objective of this session
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Foundational concepts in causal inference</li>
+<li>From causal effects to causal mediation</li>
+<li>Core causal assumptions</li>
+<li>Causal mediation effects</li>
+<li>Practical implementation using R</li>
+</ul>
+</div>
+</div>
+<section id="recall-the-major-limitations-of-traditional-mediation-methods" class="level3" data-number="6.0.1">
+<h3 data-number="6.0.1" class="anchored" data-anchor-id="recall-the-major-limitations-of-traditional-mediation-methods"><span class="header-section-number">6.0.1</span> Recall the major limitations of traditional mediation methods:</h3>
+<ul>
+<li>Non-linearity</li>
+<li>Interactions</li>
+<li>Confounding</li>
+<li>Multiple mediators</li>
+</ul>
+</section>
+<section id="causal-mediation-analysis-is-an-extension-of-the-traditional-approach" class="level3" data-number="6.0.2">
+<h3 data-number="6.0.2" class="anchored" data-anchor-id="causal-mediation-analysis-is-an-extension-of-the-traditional-approach"><span class="header-section-number">6.0.2</span> Causal mediation analysis is an extension of the traditional approach:</h3>
+<ul>
+<li>Outlining all confounding assumptions needed</li>
+<li>Handling non-linearity and interaction</li>
+<li>Clearly defining estimands of interest</li>
+<li>Different effect decompositions</li>
+</ul>
+</section>
+<section id="what-is-a-cause" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="what-is-a-cause"><span class="header-section-number">6.1</span> What is a cause?</h2>
+<p>We employ causal inference constantly in our daily lives. Consider a simple example: when you press a light switch, you expect the light to turn on. Or in another scenario, you anticipate that performing action A will result in outcome Y. In some instances, we can identify deterministic relationships where action A will lead to outcome Y. While these straightforward cause-and-effect relationships are intuitive and help us navigate the world, they become significantly more complex when we explore health outcomes.</p>
+<section id="individual-causal-effect" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="individual-causal-effect"><span class="header-section-number">6.1.1</span> Individual causal effect</h3>
+<p>When investigating health outcomes, we would ideally want to know if you <strong>do A</strong>, then Y will happen. We could have a specific question:</p>
+<blockquote class="blockquote">
+<p>Will take the magic pill reduce my risk of developing T2D in 5 years?</p>
+</blockquote>
+<p>To answer this question we would ideally have you take the magic pill over 5 years and diagnose whether you get T2D. Then, we would turn back time, and make you do not take the pill and then diagnose T2D. If there is a difference between your two outcomes, then we say there is a causal effect.</p>
+<p>But we can never do this in the real world.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Notation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A = received treatment/intervention/exposure (e.g., 1 = intervention, 0 = no intervention)</p>
+<p>Y = observed outcome (e.g., 1 = developed the outcome, 0 = no outcome)</p>
+<p><span class="math inline">\(Y^{a=1}\)</span> = Counterfactual outcome under treatment a=1 (i.e., the outcome had everyone, counter to the fact, received treatment a = 1)</p>
+<p><span class="math inline">\(Y^{a=0}\)</span> = Counterfactual outcome under treatment a =0 (i.e., the outcome had everyone, counter to the fact, received treatment a = 0)</p>
+</div>
+</div>
+</section>
+<section id="average-causal-effect" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="average-causal-effect"><span class="header-section-number">6.1.2</span> Average causal effect</h3>
+<p>Instead, we can perform a randomized controlled trial. We now ask a slightly different question:</p>
+<blockquote class="blockquote">
+<p>Will taking the magic pill reduce the risk of T2D?</p>
+</blockquote>
+<p>We can randomly assigning one group to take the pill, and the other group not to take the pill over 5 years. Then we compare the average risk of T2D after 5 year in each of the groups. If there is a difference, we could say there is an average causal effect <span class="citation" data-cites="hernan_definition_2004">(<a href="#ref-hernan_definition_2004" role="doc-biblioref">1</a>)</span>.</p>
+<p>More formally we can now define a causal effect:</p>
+<p><span class="math inline">\(E[Y^{a=1} = 1]-E[Y^{a=0} = 1]\)</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Notation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We now modify the terms a little.</p>
+<p><span class="math inline">\(E[Y^{a=1}]\)</span> the average counterfactual outcome, had all subjects in the population received treatment a = 1.</p>
+<p><span class="math inline">\(Pr[Y^{a=1}]\)</span> the proportion of subjects that would have developed the outcome Y had all subjects in the population of interest received treatment a = 1.</p>
+<p><span class="math inline">\(E[Y^{a=0}]\)</span> the average counterfactual outcome, had all subjects in the population received no treatment a = 0.</p>
+<p><span class="math inline">\(Pr[Y^{a=0}]\)</span> the proportion of subjects that would have developed the outcome Y had all subjects in the population of interest received no treatment a = 0.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="from-causal-effects-to-causal-mediation" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="from-causal-effects-to-causal-mediation"><span class="header-section-number">6.2</span> From Causal effects to Causal mediation</h2>
+<p>When we want to understand not just <strong>if</strong>, but <strong>how</strong> the magic pill affects risk of T2D, we need to consider mediating factors. For example:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item" id="htmlwidget-d7677178284b7a047a5f" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-d7677178284b7a047a5f">{"x":{"diagram":"\ndigraph {\n  rankdir = LR;\n  node [shape = box];\n  \n  Pill [label = \"Pill\"];\n  BMI [label = \"BMI\"];\n  T2D [label = \"T2D\"];\n\n  Pill -> T2D [label = \"Direct Effect\"];\n  Pill -> BMI [label = \"a\"];\n  BMI -> T2D [label = \"b\"];\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>Will taking the pill reduce my BMI, which in turn decreases the risk of T2D? This requires us to decompose the total effect into direct and indirect pathways.</p>
+<div id="fig-decompose1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="..\images/decompose1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;6.1: cross-world counterfacturals</figcaption>
+</figure>
+</div>
+<p>For mediation effects, we need to consider scenarios that cross between different possible worlds, such as: What would my risk of getting T2D be if I take the pill (treatment = 1), BUT my BMI remained at the level it would have been had I NOT taken the pill (mediator at level from treatment = 0), compared to the risk of T2D if I had taken the pill, and my BMI were at the level it would naturally reach under treatment (treatment =1).</p>
+<p>These <strong>cross-world counterfactuals</strong> combine elements from two incompatible realities. They cannot be directly observed even in principle, which creates fundamental identification challenges.</p>
+</section>
+<section id="causal-mediation-estimation-approaches" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="causal-mediation-estimation-approaches"><span class="header-section-number">6.3</span> Causal Mediation Estimation Approaches</h2>
+<p>Counterfactual-based direct and indirect effects can be estimated from regression models, provided that the no confounding assumption hold. To be able to do so, we need a model for the mediator and a model for the outcome.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Causal approaches define effects using the counterfactural framework, before estimating th effects using statistical methods.</p>
+</div>
+</div>
+<p>Model for the mediator:</p>
+<p><span class="math inline">\(E(M|A = a, U = u) = \beta_0 + \beta_1a + \beta'_2u\)</span></p>
+<p>Model for the outcome:</p>
+<p><span class="math inline">\(E(Y|A = a, M = m, U = u) = \sigma_0 + \sigma_1a + \sigma_2m + \sigma_3am + \sigma'_4u\)</span></p>
+<p>From these two regression models we can estimate the direct and indirect effect.</p>
+<p>Direct effect: <span class="math inline">\(E[(Y(a=1,M_a=0))\)</span> - <span class="math inline">\(Y(a=0,M_a=0))]\)</span></p>
+<p>Indirect effect: <span class="math inline">\(E[(Y(a=1,M_a=1))\)</span> - <span class="math inline">\(Y(a=1,M_a=0))]\)</span></p>
+<p>While regression-based approaches are commonly used, several alternative estimation methods are available, including Inverse probability weighting (IPW), G-computation, and structural equation models (SEM).</p>
+<p>Note: additional approaches also exists, but we will not focus on these in this course.</p>
+</section>
+<section id="casual-mediation-effects" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="casual-mediation-effects"><span class="header-section-number">6.4</span> Casual Mediation Effects</h2>
+<section id="defining-estimands" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="defining-estimands"><span class="header-section-number">6.4.1</span> Defining estimands</h3>
+<p>Imagine we have a hypothetical randomized controlled trial where we give participants treatment or no treatment on a specific outcome Y.</p>
+<p><span class="math inline">\(Y^{a=1} - Y^{a=0}\)</span></p>
+<p>For mediation, we are also interested in the effect of a mediator on this pathway. Now image that we also intervene on the mediator in a new hypothetical randomized controlled trial.</p>
+<p><span class="math inline">\(Y^{m=1} - Y^{m=0}\)</span></p>
+<p>Now consider if we, in the same trial, could intervene on both because we are interested in whether treatment <em>causes</em> the outcome because it <em>causes</em> the mediator.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Notation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(Y^a\)</span> = a subject’s outcome if treatment A were set, possible contrary to fact, to a</p>
+<p><span class="math inline">\(M^a\)</span> = a subject’s value of the mediator if the exposure A were set to the value of a</p>
+<p><span class="math inline">\(Y^{a,m}\)</span> = a subject’s outcome if A were set to a and M were set to m</p>
+<p><span class="math inline">\(Y^{a,M_a}\)</span> = a subject’s outcome if A were set to a and M were set the value m would have had had a been set to a. Note, this is a nested counterfactual</p>
+</div>
+</div>
+<p>We can now define these estimands:</p>
+<ul>
+<li>the controlled direct effect (CDE)</li>
+<li>natural direct effect (NDE)</li>
+<li>natural indirect effect (NIE)</li>
+</ul>
+<section id="controlled-direct-effect" class="level4" data-number="6.4.1.1">
+<h4 data-number="6.4.1.1" class="anchored" data-anchor-id="controlled-direct-effect"><span class="header-section-number">6.4.1.1</span> Controlled direct effect</h4>
+<p><span class="math inline">\(Y^{a=1,m}\)</span> - <span class="math inline">\(Y^{a=0,m}\)</span></p>
+<p>We intervene on <span class="math inline">\(a\)</span> but fix <span class="math inline">\(m\)</span> to a certain value. The CDE is how much the outcome would change on average if the mediator were fixed at level m uniformly in the population but the treatment were changed from 0 to 1.</p>
+<p>This could be relevant in the context of a change in a policy that impacted the mediator for everyone. For instance, if air pollution was a mediator between physical activity and cardiovaular disease risk. If a new policy would change the level of air pollution for all while we implement an intervention to increase biking in the city.</p>
+<p>This effect is not used that often. But can be highly relevant in some situations.</p>
+<div id="fig-cde" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="..\images/cde.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;6.2: controled direct effect</figcaption>
+</figure>
+</div>
+</section>
+<section id="pure-natural-direct-effect" class="level4" data-number="6.4.1.2">
+<h4 data-number="6.4.1.2" class="anchored" data-anchor-id="pure-natural-direct-effect"><span class="header-section-number">6.4.1.2</span> (Pure) Natural direct effect</h4>
+<p><span class="math inline">\(Y^{a=1,M_a=0}\)</span> - <span class="math inline">\(Y^{a=0,M_a=0}\)</span></p>
+<div id="fig-pnde" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="..\images/pnde.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;6.3: pure natural direct effect</figcaption>
+</figure>
+</div>
+<p>The PNDE is how much the outcome would change if the exposure was set at a = 1 versus a* = 0 but for each individual the mediator was kept at the level it would have taken, for that individual, in the absence of the exposure.</p>
+<p>Note that the word “natural” refers to the nested counterfactual, the level the mediator would have taken in the absence of exposure.</p>
+</section>
+<section id="total-natural-indirect-effect" class="level4" data-number="6.4.1.3">
+<h4 data-number="6.4.1.3" class="anchored" data-anchor-id="total-natural-indirect-effect"><span class="header-section-number">6.4.1.3</span> (Total) Natural indirect effect</h4>
+<p><span class="math inline">\(Y^{a=1,M_a=1}\)</span> - <span class="math inline">\(Y^{a=1,M_a=0}\)</span></p>
+<div id="fig-tnie" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="..\images/tnie.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;6.4: total natural indirect effect</figcaption>
+</figure>
+</div>
+<p>The NIE is how much the outcome would change on average if the exposure were fixed at level a = 1 but the mediator were changed from the level it would take if a* = 0 to the level it would take if a = 1.</p>
+<p>Note that exposure has to have an effect on M otherwise this will be zero.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Decomposition
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>TE = PNDE + TNIE this decomposition usually is for research question: ‘is there a mediated effect?’ or ‘is the causal effect mediated by the proposed mediator?’ <span class="citation" data-cites="nguyen2021clarifying">(<a href="#ref-nguyen2021clarifying" role="doc-biblioref">2</a>)</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The other way to decompose the TE is by Total natural direct effect and pure natural indirect effect.</p>
+<section id="total-natural-direct-effect" class="level4" data-number="6.4.1.4">
+<h4 data-number="6.4.1.4" class="anchored" data-anchor-id="total-natural-direct-effect"><span class="header-section-number">6.4.1.4</span> Total natural direct effect</h4>
+<p>TNDE = <span class="math inline">\(Y^{a=1,M_a=1}\)</span> - <span class="math inline">\(Y^{a=0,M_a=1}\)</span></p>
+<p>Note, different from above in that the mediator is kept at the level it would have taken in the <strong>presence</strong> of the exposure.</p>
+</section>
+<section id="pure-natural-indirect-effect" class="level4" data-number="6.4.1.5">
+<h4 data-number="6.4.1.5" class="anchored" data-anchor-id="pure-natural-indirect-effect"><span class="header-section-number">6.4.1.5</span> Pure natural indirect effect</h4>
+<p>PNIE = <span class="math inline">\(Y^{a=0,M_a=1}\)</span> - <span class="math inline">\(Y^{a=0,M_a=0}\)</span></p>
+<p>Note, this is different from the TNIE in that the exposure is set to no intervention.</p>
+<p>TE = PNIE + TNDE this decomposition usually is for research question: ‘does the exposure influence the outcome in other ways, not through this mediator?’ <span class="citation" data-cites="nguyen2021clarifying">(<a href="#ref-nguyen2021clarifying" role="doc-biblioref">2</a>)</span></p>
+</section>
+</div>
+</div>
+</section>
+</section>
+<section id="effect-decomposition" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="effect-decomposition"><span class="header-section-number">6.4.2</span> Effect decomposition</h3>
+<p>Using the causal inference framework also allow for effect decomposition, even when there are interaction and non-linearity.</p>
+<p>Effect decomposition is important when we want to assess relative contributions such as the proportion mediated and eliminated.</p>
+<p>TE = PNDE + TNIE = TNDE + PNIE</p>
+<p>More information about decomposition of effects can be found in <span class="citation" data-cites="vanderweele_unification_2014">(<a href="#ref-vanderweele_unification_2014" role="doc-biblioref">3</a>)</span>.</p>
+</section>
+<section id="proportions" class="level3" data-number="6.4.3">
+<h3 data-number="6.4.3" class="anchored" data-anchor-id="proportions"><span class="header-section-number">6.4.3</span> Proportions</h3>
+<p>Proportion mediated:</p>
+<p><span class="math inline">\(PM = NIE / TE\)</span></p>
+<p>Proportion eliminated:</p>
+<p><span class="math inline">\(PE = (TE-CDE) / TE\)</span></p>
+</section>
+</section>
+<section id="why-causal-mediation-analysis" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="why-causal-mediation-analysis"><span class="header-section-number">6.5</span> Why Causal Mediation Analysis?</h2>
+<p>Neither the product method nor the difference method in traditional mediation analysis can effectively account for interaction effects or non-linear relationships between variables. Traditional methods also lack attention to confounding and temporallity.</p>
+<p>Causal mediation analysis addresses these limitations through more sophisticated approaches. Specifically, it can:</p>
+<ul>
+<li><p>Constructing a comprehensive causal model that explicitly incorporates non-linear relationships and interaction effects. Counterfactual approaches can better handle complex, non-parametric relationships.</p></li>
+<li><p>Decomposition of effects: Counterfactual methods allow for more nuanced decomposition of total effects into direct and indirect effects, especially in the presence of treatment-mediator interactions.</p></li>
+<li><p>Counterfactual frameworks extend more naturally to settings with multiple mediators</p></li>
+</ul>
+</section>
+<section id="core-causal-assumptions" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="core-causal-assumptions"><span class="header-section-number">6.6</span> Core Causal Assumptions</h2>
+<section id="association-vs-causation" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="association-vs-causation"><span class="header-section-number">6.6.1</span> Association vs Causation</h3>
+<p>What makes it complicated to estimate a causal effect is that we cannot observe the outcome under different treatments.</p>
+<p>When we only have a subset of the outcomes, we have an association. This is illustrated in <a href="#fig-causation-association">Figure&nbsp;<span>6.5</span></a>.</p>
+<div id="fig-causation-association" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="..\images/causation-association.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;6.5: Association versus Causation: When we observe only a subset of the outcomes across exposure groups, we have an association rather than causation.</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Causal Assumptions</p>
+<ul>
+<li>Exchangeability</li>
+</ul>
+<p>The risk of the outcome in A = 1 would have been the same as the risk of the outcome in A = 0, had those in A = 1 received A = 0.</p>
+<p>Think about a randomized trial where you, by mistake, give the intervention to the other group. The effect should be the same as the one you would have observed had the groups been correct.</p>
+<p>We can also have conditional exchangeability. The risk is similar in subsets of the population. That could be within the levels of a variable U (e.g., education).</p>
+<ul>
+<li>Consistency</li>
+</ul>
+<p>The treatments under comparison are well-defined and correspond to the versions of treatment observed in the data:</p>
+<ul>
+<li>Precise definition of <span class="math inline">\(Y^a\)</span> via a</li>
+<li>Link counterfactual outcomes with observed outcomes</li>
+</ul>
+<p><span class="math inline">\(Y^a = Y\)</span> for every individual with A = a.</p>
+<p>The observed outcome for all treated equals the outcome if they had received the treatment (the potential outcome).</p>
+<ul>
+<li>Positivity</li>
+</ul>
+<p>The probability of receiving every value of treatment conditional on L is greater than zero. In other words, there must be a probability of being assigned to each treatment level.</p>
+<p>Image if we don’t have anyone with A = 0 among those with L=1 (e.g. long education), then we cannot estimate the conditional probability of the outcome.</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="confounding-assumptions-in-causal-mediation-analysis" class="level3" data-number="6.6.2">
+<h3 data-number="6.6.2" class="anchored" data-anchor-id="confounding-assumptions-in-causal-mediation-analysis"><span class="header-section-number">6.6.2</span> Confounding assumptions in Causal Mediation Analysis</h3>
+<p>Confounding assumptions are critical for valid causal inferences in mediation analysis. These assumptions specify the conditions under which we can interpret our estimates as truly causal rather than merely associational.</p>
+<div>
+<ol type="1">
+<li><p>no unmeasured exposure-outcome confounding</p></li>
+<li><p>no unmeasured exposure-mediator confounding</p></li>
+<li><p>no unmeasured mediator-outcome confounding</p></li>
+<li><p>mediator-outcome confounding not affected by the exposure/treatment (post-treatment confounder or intermediate confounder)</p></li>
+</ol>
+</div>
+<p>By using DAGs, the assumptions about confounding are made much more explicit.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item" id="htmlwidget-7e812c41bb890b1988a6" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-7e812c41bb890b1988a6">{"x":{"diagram":"\ndigraph {\n  graph []\n  node [shape = plaintext]\n    U [label = \"U\"]\n    A [label = \"A\"]\n    M [label = \"M\"]\n    Y [label = \"Y\"]\n  edge [minlen = 2]\n    A->M\n    M->Y\n    A->Y\n    U->A\n    U->Y\n    U->M\n{rank = same; U; A; M; Y; }\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>We can see that we not only have to take confounding between the exposure and outcome into account, but we also have to take mediator-outcome (<span class="math inline">\(A \leftarrow U \rightarrow Y\)</span>) confounding into account.</p>
+<p>In addition, we can have a more complicated situation where the exposure also impacts another mediator that is also a mediator-outcome confounder.</p>
+<p>Below DAG shows where the mediator-outcome relation is affected by treatment(or exposure):</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item" id="htmlwidget-237e1e8ef0b753670270" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-237e1e8ef0b753670270">{"x":{"diagram":"\ndigraph {\n  graph []\n  node [shape = plaintext]\n    U1 [label = \"U1\"]\n    A [label = \"A\"]\n    M [label = \"M\"]\n    Y [label = \"Y\"]\n    U2 [label = \"U2\"]\n  edge [minlen = 2]\n    A->M\n    M->Y\n    A->Y\n    U1->A\n    U1->Y\n    U1->M\n    U2->M\n    U2->Y\n    U3->Y\n    U3->U2\n    A->U2\n    U1->U2\n{rank = same; U1; A; M; Y; }\n{rank = max; U2 ; U3}\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>From the DAG rules, we have a special problem that we cannot solve with traditional regression approaches. If we adjust for U2 we open a backdoor path by adjusting for the collider <span class="math inline">\(A \rightarrow U2 \leftarrow U3\leftarrow Y\)</span>.</p>
+</section>
+</section>
+<section id="practical-examples-using-the-r-package" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="practical-examples-using-the-r-package"><span class="header-section-number">6.7</span> Practical Examples using the R package</h2>
+<p>We can easily conduct mediation analysis using the R package once you understand the basic concepts of mediation.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Before you run the analytical models
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>make a DAG displaying the assumed causal model</li>
+<li>check the confounding assumptions for each path</li>
+<li>ensure the temporal ordering of the variables</li>
+</ul>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This includes readr, or use library(readr) specifically</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>nhanes <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/NHANES.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 10000 Columns: 76
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (31): SurveyYr, Gender, AgeDecade, Race1, Race3, Education, MaritalStatu...
+dbl (45): ID, Age, AgeMonths, HHIncomeMid, Poverty, HomeRooms, Weight, Lengt...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> nhanes <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(ID,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">u1 =</span> Age,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">u2 =</span> Gender,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">u3 =</span> Education,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">u4 =</span> Smoke100,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">a =</span> PhysActive,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">m =</span> BMI,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> Pulse,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y2 =</span> Diabetes</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First, load the library:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CMAverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in check_dep_version(): ABI version mismatch: 
+lme4 was built with Matrix ABI version 1
+Current Matrix ABI version is 0
+Please re-install lme4 from source or restore original 'Matrix' package</code></pre>
+</div>
+</div>
+<p>Next, we can plot the DAG based on the research question:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cmdag</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome =</span> <span class="st">"y"</span>, <span class="at">exposure =</span> <span class="st">"a"</span>, <span class="at">mediator =</span> <span class="fu">c</span>(<span class="st">"m"</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">basec =</span> <span class="fu">c</span>(<span class="st">"U1"</span>, <span class="st">"U2"</span>, <span class="st">"U3"</span>, <span class="st">"U4"</span>), <span class="at">postc =</span> <span class="cn">NULL</span>, <span class="at">node =</span> <span class="cn">FALSE</span>, <span class="at">text_col =</span> <span class="st">"black"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="causal-mediation-analysis-introduction_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Then we can start estimating causal mediation effects using the function ‘cmest’.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>res_rb <span class="ot">&lt;-</span> <span class="fu">cmest</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"rb"</span>, <span class="co"># rb means regression based</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome =</span> <span class="st">"y"</span>, <span class="co"># this is the name of outcome</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">exposure =</span> <span class="st">"a"</span>, <span class="co"># this is the name of exposure</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">mediator =</span> <span class="st">"m"</span>, <span class="co"># this is the name of mediator</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">basec =</span> <span class="fu">c</span>(<span class="st">"u1"</span>), <span class="co"># this is confounding factors, you can add more confounders here</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">EMint =</span> <span class="cn">TRUE</span>, <span class="co"># whether include interaction, TRUE indicates to include</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">mreg =</span> <span class="fu">list</span>(<span class="st">"linear"</span>), <span class="co"># specify the mediator model, we use linear regression here</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">yreg =</span> <span class="st">"linear"</span>, <span class="co"># specify the outcome model, we use linear regression here</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">astar =</span> <span class="dv">0</span>, <span class="co"># the level of exposure (not exposed)</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="dv">1</span>, <span class="co"># the level of exposure (exposed)</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">mval =</span> <span class="fu">list</span>(<span class="fl">27.8</span>), <span class="co"># specifiy the value of controlled mediator</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimation =</span> <span class="st">"paramfunc"</span>, <span class="co"># parameteric function</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">inference =</span> <span class="st">"delta"</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in estinf(): a is not a value of the exposure; Yes is used</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in estinf(): astar is not a value of the exposure; No is used</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res_rb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Causal Mediation Analysis
+
+# Outcome regression:
+
+Call:
+glm(formula = y ~ a + m + a * m + u1, family = gaussian(), data = getCall(x$reg.output$yreg)$data, 
+    weights = getCall(x$reg.output$yreg)$weights)
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 75.200976   0.954088  78.820  &lt; 2e-16 ***
+aYes        -5.625108   1.252664  -4.491 7.22e-06 ***
+m            0.143529   0.028201   5.090 3.68e-07 ***
+u1          -0.122102   0.008402 -14.533  &lt; 2e-16 ***
+aYes:m       0.125536   0.042449   2.957  0.00311 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 134.882)
+
+    Null deviance: 978151  on 6915  degrees of freedom
+Residual deviance: 932170  on 6911  degrees of freedom
+AIC: 53553
+
+Number of Fisher Scoring iterations: 2
+
+
+# Mediator regressions: 
+
+Call:
+glm(formula = m ~ a + u1, family = gaussian(), data = getCall(x$reg.output$mreg[[1L]])$data, 
+    weights = getCall(x$reg.output$mreg[[1L]])$weights)
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 29.440321   0.267707 109.972   &lt;2e-16 ***
+aYes        -1.883085   0.162184 -11.611   &lt;2e-16 ***
+u1           0.007546   0.004793   1.575    0.115    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 43.91474)
+
+    Null deviance: 310099  on 6915  degrees of freedom
+Residual deviance: 303583  on 6913  degrees of freedom
+AIC: 45790
+
+Number of Fisher Scoring iterations: 2
+
+
+# Effect decomposition on the mean difference scale via the regression-based approach
+ 
+Closed-form parameter function estimation with 
+ delta method standard errors, confidence intervals and p-values 
+ 
+              Estimate Std.error   95% CIL 95% CIU    P.val    
+cde          -2.135202  0.289670 -2.702945  -1.567 1.69e-13 ***
+pnde         -1.884592  0.290945 -2.454834  -1.314 9.33e-11 ***
+tnde         -2.120987  0.289390 -2.688180  -1.554 2.32e-13 ***
+pnie         -0.270278  0.057982 -0.383921  -0.157 3.14e-06 ***
+tnie         -0.506673  0.073986 -0.651682  -0.362 7.48e-12 ***
+te           -2.391265  0.286308 -2.952417  -1.830  &lt; 2e-16 ***
+intref        0.250610  0.086005  0.082043   0.419 0.003570 ** 
+intmed       -0.236395  0.082486 -0.398066  -0.075 0.004159 ** 
+cde(prop)     0.892918  0.029698  0.834710   0.951  &lt; 2e-16 ***
+intref(prop) -0.104802  0.038003 -0.179288  -0.030 0.005821 ** 
+intmed(prop)  0.098858  0.036181  0.027944   0.170 0.006290 ** 
+pnie(prop)    0.113027  0.027197  0.059721   0.166 3.24e-05 ***
+pm            0.211885  0.038694  0.136046   0.288 4.35e-08 ***
+int          -0.005945  0.006247 -0.018189   0.006 0.341319    
+pe            0.107082  0.029698  0.048875   0.165 0.000311 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(cde: controlled direct effect; pnde: pure natural direct effect; tnde: total natural direct effect; pnie: pure natural indirect effect; tnie: total natural indirect effect; te: total effect; intref: reference interaction; intmed: mediated interaction; cde(prop): proportion cde; intref(prop): proportion intref; intmed(prop): proportion intmed; pnie(prop): proportion pnie; pm: overall proportion mediated; int: overall proportion attributable to interaction; pe: overall proportion eliminated)
+
+Relevant variable values: 
+$a
+[1] "Yes"
+
+$astar
+[1] "No"
+
+$mval
+$mval[[1]]
+[1] 27.8
+
+
+$basecval
+$basecval[[1]]
+[1] 47.17467</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'knitr' was built under R version 4.3.3</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>results_simple_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Effect =</span> <span class="fu">c</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Controlled Direct Effect (CDE)"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Pure Natural Direct Effect (PNDE)"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Total Natural Indirect Effect (TNIE)"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Total Effect (TE)"</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Point Estimate (95% CI)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sprintf</span>(<span class="st">"-2.14 (-2.70 to -1.57)"</span>),</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sprintf</span>(<span class="st">"-1.88 (-2.45 to -1.31)"</span>),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sprintf</span>(<span class="st">"-0.51 (-0.65 to -0.36)"</span>),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sprintf</span>(<span class="st">"-2.39 (-2.95 to -1.83)"</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(results_simple_df, </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Mediation Analysis Results"</span>, </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">format =</span> <span class="st">"markdown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: 'xfun::attr()' is deprecated.
+Use 'xfun::attr2()' instead.
+See help("Deprecated")
+Warning: 'xfun::attr()' is deprecated.
+Use 'xfun::attr2()' instead.
+See help("Deprecated")</code></pre>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Mediation Analysis Results</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Effect</th>
+<th style="text-align: left;">Point.Estimate..95..CI.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Controlled Direct Effect (CDE)</td>
+<td style="text-align: left;">-2.14 (-2.70 to -1.57)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pure Natural Direct Effect (PNDE)</td>
+<td style="text-align: left;">-1.88 (-2.45 to -1.31)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Total Natural Indirect Effect (TNIE)</td>
+<td style="text-align: left;">-0.51 (-0.65 to -0.36)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Total Effect (TE)</td>
+<td style="text-align: left;">-2.39 (-2.95 to -1.83)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sim_rb <span class="ot">&lt;-</span> <span class="fu">cmest</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"rb"</span>, <span class="co"># rb means regression based</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">outcome =</span> <span class="st">"y"</span>, <span class="co"># this is the name of outcome</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">exposure =</span> <span class="st">"a"</span>, <span class="co"># this is the name of exposure</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">mediator =</span> <span class="st">"m"</span>, <span class="co"># this is the name of mediator</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">basec =</span> <span class="fu">c</span>(<span class="st">"u1"</span>), <span class="co"># this is confounding factors, you can add more confounders here</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">EMint =</span> <span class="cn">TRUE</span>, <span class="co"># whether include interaction, TRUE indicates to include</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">mreg =</span> <span class="fu">list</span>(<span class="st">"linear"</span>), <span class="co"># specify the mediator model, we use linear regression here</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">yreg =</span> <span class="st">"linear"</span>, <span class="co"># specify the outcome model, we use linear regression here</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">astar =</span> <span class="dv">0</span>, <span class="co"># the level of exposure (not exposed)</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="dv">1</span>, <span class="co"># the level of exposure (exposed)</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">mval =</span> <span class="fu">list</span>(<span class="fl">27.8</span>), <span class="co"># specifiy the value of controlled mediator</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimation =</span> <span class="st">"imputation"</span>, <span class="do">## use imputation</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">inference =</span> <span class="st">"bootstrap"</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">nboot =</span> <span class="dv">20</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in estinf(): a is not a value of the exposure; Yes is used</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in estinf(): astar is not a value of the exposure; No is used</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |====                                                                  |   5%
+  |                                                                            
+  |=======                                                               |  10%
+  |                                                                            
+  |==========                                                            |  15%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |==================                                                    |  25%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |========================                                              |  35%
+  |                                                                            
+  |============================                                          |  40%
+  |                                                                            
+  |================================                                      |  45%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |======================================                                |  55%
+  |                                                                            
+  |==========================================                            |  60%
+  |                                                                            
+  |==============================================                        |  65%
+  |                                                                            
+  |=================================================                     |  70%
+  |                                                                            
+  |====================================================                  |  75%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |============================================================          |  85%
+  |                                                                            
+  |===============================================================       |  90%
+  |                                                                            
+  |==================================================================    |  95%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sim_rb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Causal Mediation Analysis
+
+# Outcome regression:
+
+Call:
+glm(formula = y ~ a + m + a * m + u1, family = gaussian(), data = getCall(x$reg.output$yreg)$data, 
+    weights = getCall(x$reg.output$yreg)$weights)
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 75.200976   0.954088  78.820  &lt; 2e-16 ***
+aYes        -5.625108   1.252664  -4.491 7.22e-06 ***
+m            0.143529   0.028201   5.090 3.68e-07 ***
+u1          -0.122102   0.008402 -14.533  &lt; 2e-16 ***
+aYes:m       0.125536   0.042449   2.957  0.00311 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 134.882)
+
+    Null deviance: 978151  on 6915  degrees of freedom
+Residual deviance: 932170  on 6911  degrees of freedom
+AIC: 53553
+
+Number of Fisher Scoring iterations: 2
+
+
+# Mediator regressions: 
+
+Call:
+glm(formula = m ~ a + u1, family = gaussian(), data = getCall(x$reg.output$mreg[[1L]])$data, 
+    weights = getCall(x$reg.output$mreg[[1L]])$weights)
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 29.440321   0.267707 109.972   &lt;2e-16 ***
+aYes        -1.883085   0.162184 -11.611   &lt;2e-16 ***
+u1           0.007546   0.004793   1.575    0.115    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 43.91474)
+
+    Null deviance: 310099  on 6915  degrees of freedom
+Residual deviance: 303583  on 6913  degrees of freedom
+AIC: 45790
+
+Number of Fisher Scoring iterations: 2
+
+
+# Effect decomposition on the mean difference scale via the regression-based approach
+ 
+Direct counterfactual imputation estimation with 
+ bootstrap standard errors, percentile confidence intervals and p-values 
+ 
+              Estimate Std.error   95% CIL 95% CIU  P.val    
+cde          -2.135202  0.292077 -2.744923  -1.783 &lt;2e-16 ***
+pnde         -1.891032  0.274057 -2.508309  -1.603 &lt;2e-16 ***
+tnde         -2.127427  0.287943 -2.736038  -1.780 &lt;2e-16 ***
+pnie         -0.270278  0.062143 -0.379195  -0.182 &lt;2e-16 ***
+tnie         -0.506673  0.088811 -0.628757  -0.347 &lt;2e-16 ***
+te           -2.397704  0.268661 -2.974510  -2.064 &lt;2e-16 ***
+intref        0.244171  0.097594  0.014208   0.363    0.1 .  
+intmed       -0.236395  0.095360 -0.351180  -0.013    0.1 .  
+cde(prop)     0.890519  0.033683  0.828325   0.941 &lt;2e-16 ***
+intref(prop) -0.101835  0.041743 -0.154168  -0.007    0.1 .  
+intmed(prop)  0.098592  0.040857  0.006429   0.149    0.1 .  
+pnie(prop)    0.112723  0.030305  0.065760   0.168 &lt;2e-16 ***
+pm            0.211316  0.040543  0.137916   0.280 &lt;2e-16 ***
+int          -0.003243  0.006516 -0.016381   0.008    0.4    
+pe            0.109481  0.033683  0.058997   0.172 &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(cde: controlled direct effect; pnde: pure natural direct effect; tnde: total natural direct effect; pnie: pure natural indirect effect; tnie: total natural indirect effect; te: total effect; intref: reference interaction; intmed: mediated interaction; cde(prop): proportion cde; intref(prop): proportion intref; intmed(prop): proportion intmed; pnie(prop): proportion pnie; pm: overall proportion mediated; int: overall proportion attributable to interaction; pe: overall proportion eliminated)
+
+Relevant variable values: 
+$a
+[1] "Yes"
+
+$astar
+[1] "No"
+
+$mval
+$mval[[1]]
+[1] 27.8</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcmest</span>(res_rb) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">axis.text.x =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">30</span>, <span class="at">vjust =</span> <span class="fl">0.8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="causal-mediation-analysis-introduction_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="example-not-using-the-r-package" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="example-not-using-the-r-package"><span class="header-section-number">6.8</span> Example-not using the R package</h2>
+<p>You can also estimate causal mediation effects using regression-based models by implementing the calculation steps manually</p>
+<p>We can now run a model for the mediator only adjusting for a single variable. In practice you would adjust for many more variables to satisfy the confounding assumptions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>lm_m <span class="ot">&lt;-</span> <span class="fu">lm</span>(m <span class="sc">~</span> a <span class="sc">+</span> u1, <span class="at">data =</span> data)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = m ~ a + u1, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-14.741  -4.578  -1.086   3.421  51.417 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 29.440321   0.267707 109.972   &lt;2e-16 ***
+aYes        -1.883085   0.162184 -11.611   &lt;2e-16 ***
+u1           0.007546   0.004793   1.575    0.115    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 6.627 on 6913 degrees of freedom
+Multiple R-squared:  0.02101,   Adjusted R-squared:  0.02073 
+F-statistic: 74.19 on 2 and 6913 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Here, we see that physical activity (a) is associated with lower BMI (m).</p>
+<p>Now, we run the model for the outcome. Notice we have included an interaction term.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>lm_y <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> a <span class="sc">+</span> m <span class="sc">+</span> a<span class="sc">:</span>m <span class="sc">+</span> u1, <span class="at">data =</span> data)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ a + m + a:m + u1, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-32.464  -8.254  -1.007   7.254  68.847 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 75.200976   0.954088  78.820  &lt; 2e-16 ***
+aYes        -5.625108   1.252664  -4.491 7.22e-06 ***
+m            0.143529   0.028201   5.090 3.68e-07 ***
+u1          -0.122102   0.008402 -14.533  &lt; 2e-16 ***
+aYes:m       0.125536   0.042449   2.957  0.00311 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 11.61 on 6911 degrees of freedom
+Multiple R-squared:  0.04701,   Adjusted R-squared:  0.04646 
+F-statistic: 85.23 on 4 and 6911 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>In this model we can see:</p>
+<ul>
+<li><p>higher physical activity (a) decreases pulse, independent of the mediator (BMI)</p></li>
+<li><p>excess body weight (BMI) is associated with higher pulse, independently of physical activity</p></li>
+<li><p>there is statistically significant interaction between physical activity (a) and BMI (m)</p>
+<p>Based on the coefficients of these two models, we can now estimate the different effects.</p></li>
+</ul>
+<p>The equations are from <span class="citation" data-cites="valeri_mediation_2013">(<a href="#ref-valeri_mediation_2013" role="doc-biblioref">4</a>)</span> and <span class="citation" data-cites="vanderweele_unification_2014">(<a href="#ref-vanderweele_unification_2014" role="doc-biblioref">3</a>)</span>.</p>
+<section id="controlled-direct-effect-1" class="level3" data-number="6.8.1">
+<h3 data-number="6.8.1" class="anchored" data-anchor-id="controlled-direct-effect-1"><span class="header-section-number">6.8.1</span> Controlled direct effect</h3>
+<p>The controlled direct effect can be obtained using this formula based on the regression coefficients:</p>
+<p><span class="math inline">\(CDE(m) = (\sigma_1 + \sigma_3*m)(a - a^*)\)</span></p>
+<p><span class="math inline">\(a^*\)</span> is for a change from level <span class="math inline">\(a^*\)</span> (=control) to level <span class="math inline">\(a\)</span> (=intervention).</p>
+<p>For the controlled direct effect we set m to a specific value.</p>
+<p>Let’s look at the distribution of m (BMI).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(m) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       m        
+ Min.   :15.02  
+ 1st Qu.:24.10  
+ Median :27.80  
+ Mean   :28.80  
+ 3rd Qu.:32.22  
+ Max.   :81.25  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>median_m <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">median</span>(data<span class="sc">$</span>m), <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In this example we will set it to the median of BMI, at 27.8 which is a low level. You can also try to set BMI to 25kg/m2.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>CDE_m <span class="ot">&lt;-</span> (lm_y<span class="sc">$</span>coefficients[<span class="dv">2</span>] <span class="sc">+</span> lm_y<span class="sc">$</span>coefficients[<span class="dv">5</span>] <span class="sc">*</span> median_m) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="dv">0</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">as.numeric</span>(CDE_m), <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2.14</code></pre>
+</div>
+</div>
+<p>The CDE is how much the outcome, here the pulse, would change on average if the mediator, here BMI, were fixed at level (m = 27.8) uniformly in the population but the exposure (being physically active), was changed from 0 to 1.</p>
+<p>The CDE answer the question, <em>what would be the effect of A on Y, when fixing M at a specific value for everyone in the population</em> <span class="citation" data-cites="wang_g-computation_2015">(<a href="#ref-wang_g-computation_2015" role="doc-biblioref">5</a>)</span>?</p>
+</section>
+<section id="pure-natural-direct-effect-1" class="level3" data-number="6.8.2">
+<h3 data-number="6.8.2" class="anchored" data-anchor-id="pure-natural-direct-effect-1"><span class="header-section-number">6.8.2</span> (Pure) natural direct effect</h3>
+<p>PNDE can be obtained using this formula:</p>
+<p><span class="math inline">\(PNDE = (\sigma_1 + \sigma_3 * (\beta_0 + \beta_1*a^* + \beta'_2*u))(a - a^*)\)</span></p>
+<p>We set the value for the confounder u1 for the interaction to be the mean value of u1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>mean_u1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>u1)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>mean_u1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 47.17467</code></pre>
+</div>
+</div>
+<p>Then we calculate the PNDE.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>PNDE <span class="ot">&lt;-</span> (lm_y<span class="sc">$</span>coefficients[<span class="dv">2</span>] <span class="sc">+</span> (lm_y<span class="sc">$</span>coefficients[<span class="dv">5</span>] <span class="sc">*</span> (lm_m<span class="sc">$</span>coefficients[<span class="dv">1</span>] <span class="sc">+</span> lm_m<span class="sc">$</span>coefficients[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">0</span> <span class="sc">+</span> lm_m<span class="sc">$</span>coefficients[<span class="dv">3</span>] <span class="sc">*</span> mean_u1))) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="dv">0</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">as.numeric</span>(PNDE), <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.88</code></pre>
+</div>
+</div>
+<p>The PNDE is how much the outcome, pulse, would change if the exposure (being physically active), was set at 1 versus 0 but for each individual the mediator was kept at the level it would have taken, for that individual, in the absence of the exposure.</p>
+<p>This means: how pulse rate would change if the exposure (being physically active) (a=1) was set at 1 versus 0 (everybody was physically active), while for each individual the mediator (BMI) was kept at the level it would naturally be in the <strong>absence</strong> of physical activity(<strong>a=0</strong>).</p>
+<p>In other words, it measures the direct effect of physical activity on pulse rate that doesn’t work through changing BMI.</p>
+</section>
+<section id="total-natural-direct-effect-1" class="level3" data-number="6.8.3">
+<h3 data-number="6.8.3" class="anchored" data-anchor-id="total-natural-direct-effect-1"><span class="header-section-number">6.8.3</span> (Total) natural direct effect</h3>
+<p>TNDE can be obtained by this formula:</p>
+<p><span class="math inline">\(TNDE = (\sigma_1 + \sigma_3 * (\beta_0 + beta_1*a + \beta'_2*u))(a - a^*)\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>TNDE <span class="ot">&lt;-</span> (lm_y<span class="sc">$</span>coefficients[<span class="dv">2</span>] <span class="sc">+</span> (lm_y<span class="sc">$</span>coefficients[<span class="dv">5</span>] <span class="sc">*</span> (lm_m<span class="sc">$</span>coefficients[<span class="dv">1</span>] <span class="sc">+</span> lm_m<span class="sc">$</span>coefficients[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">1</span> <span class="sc">+</span> lm_m<span class="sc">$</span>coefficients[<span class="dv">3</span>] <span class="sc">*</span> mean_u1))) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="dv">0</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">as.numeric</span>(TNDE), <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2.12</code></pre>
+</div>
+</div>
+<p>Here, the value of M is enabled to act (as opposed to what happens for the PNDE). Here we see a slightly lower pulse rate estimate, this means we’re measuring the direct effect of physical activity on pulse rate while allowing BMI to be at the level it would naturally be with physical activity (<strong>a=1</strong>).</p>
+<p>The TNDE asks the question: “to what extent does physical activity cause lower pulse via pathways other than through BMI, allowing BMI to boost up or tune down such effect at the same time?” <span class="citation" data-cites="wang_g-computation_2015">(<a href="#ref-wang_g-computation_2015" role="doc-biblioref">5</a>)</span></p>
+</section>
+<section id="total-natural-indirect-effect-1" class="level3" data-number="6.8.4">
+<h3 data-number="6.8.4" class="anchored" data-anchor-id="total-natural-indirect-effect-1"><span class="header-section-number">6.8.4</span> Total natural indirect effect</h3>
+<p>The TNIE can be obtained by this formula:</p>
+<p><span class="math inline">\(TNIE = (\sigma_2 * \beta_1 + \sigma_3 * \beta_1 * a)(a - a^*)\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>TNIE <span class="ot">&lt;-</span> ((lm_y<span class="sc">$</span>coefficients[<span class="dv">3</span>] <span class="sc">*</span> lm_m<span class="sc">$</span>coefficients[<span class="dv">2</span>]) <span class="sc">+</span> (lm_y<span class="sc">$</span>coefficients[<span class="dv">5</span>] <span class="sc">*</span> lm_m<span class="sc">$</span>coefficients[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">1</span>)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="dv">0</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">as.numeric</span>(TNIE), <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.51</code></pre>
+</div>
+</div>
+<p>The TNIE is how much the outcome would change on average if the exposure was fixed at level a = 1 but the mediator was changed from the level it would take if a* = 0 (physical inactive) to the level it would take if a =1 (physical active).</p>
+<p>Note that the exposure has to have an effect on M otherwise the TNIE will be zero.</p>
+<p>The TNIE asks the question: to what extent does physical activity cause pulse via BMI and the possible interaction between physical activity and BMI in affecting pulse rate? In other words, the effect of exposure that ‘would be prevented if the exposure did not cause the mediator’ (i.e., the portion of the effect for which mediation is ‘necessary’) <span class="citation" data-cites="wang_g-computation_2015">(<a href="#ref-wang_g-computation_2015" role="doc-biblioref">5</a>)</span>.</p>
+<p>This is often the effect we are interested in in biomedical research for questions regarding mediation.</p>
+</section>
+<section id="pure-natural-indirect-effect-1" class="level3" data-number="6.8.5">
+<h3 data-number="6.8.5" class="anchored" data-anchor-id="pure-natural-indirect-effect-1"><span class="header-section-number">6.8.5</span> Pure natural indirect effect</h3>
+<p>The PNIE can be obtained by this formula:</p>
+<p><span class="math inline">\(PNIE = (\sigma_2 * \beta_1 + \sigma_3 * \beta_1 * a^*)(a - a^*)\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>PNIE <span class="ot">&lt;-</span> ((lm_y<span class="sc">$</span>coefficients[<span class="dv">3</span>] <span class="sc">*</span> lm_m<span class="sc">$</span>coefficients[<span class="dv">2</span>]) <span class="sc">+</span> (lm_y<span class="sc">$</span>coefficients[<span class="dv">5</span>] <span class="sc">*</span> lm_m<span class="sc">$</span>coefficients[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">0</span>)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="dv">0</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">as.numeric</span>(PNIE), <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.27</code></pre>
+</div>
+</div>
+<p>The PNIE is different from the TNIE because it does not include the interaction effect. We estimate the effect of physical activity on BMI and then subsequently the effect of BMI on pulse rate.</p>
+<p>The PNIE answers the question: “to what extent does physical activity cause lower pulse rate via BMI only (i.e., due to physical activity affecting BMI and subsequently, BMI affecting pulse rate), not accounting for the possible interaction between physical activity and BMI?” In other words, the effect that the exposure would have had if ‘its only action were to cause the mediator’ (i.e., the portion of the effect for which mediation is ‘’sufficient’’)” <span class="citation" data-cites="wang_g-computation_2015">(<a href="#ref-wang_g-computation_2015" role="doc-biblioref">5</a>)</span>.</p>
+</section>
+<section id="total-effect" class="level3" data-number="6.8.6">
+<h3 data-number="6.8.6" class="anchored" data-anchor-id="total-effect"><span class="header-section-number">6.8.6</span> Total effect</h3>
+<p>The total effect can be decomposed as:</p>
+<p><span class="math inline">\(TE = PNDE + TNIE\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>TE <span class="ot">&lt;-</span> PNDE <span class="sc">+</span> TNIE</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">as.numeric</span>(TE), <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2.39</code></pre>
+</div>
+</div>
+<p>This is the overall effect of physical activity on pulse rate.</p>
+</section>
+<section id="proportion-mediation" class="level3" data-number="6.8.7">
+<h3 data-number="6.8.7" class="anchored" data-anchor-id="proportion-mediation"><span class="header-section-number">6.8.7</span> Proportion mediation</h3>
+<p>From this, we can calculate the proportion mediated.</p>
+<p><span class="math inline">\(PM = \frac{TNIE}{TE}\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>PM <span class="ot">&lt;-</span> TNIE <span class="sc">/</span> TE</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(PM) <span class="sc">*</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 21.18849</code></pre>
+</div>
+</div>
+<p>21% of the association between physical activity and pulse rate is mediated by the mediator BMI.</p>
+</section>
+</section>
+<section id="references" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="references"><span class="header-section-number">6.9</span> References</h2>
+
+
+<div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-hernan_definition_2004" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Hernan MA. A definition of causal effect for epidemiological research. Journal of Epidemiology &amp; Community Health [Internet] 2004 [cited 2024 May 6];58:265–71. Available from: <a href="https://jech.bmj.com/lookup/doi/10.1136/jech.2002.006361">https://jech.bmj.com/lookup/doi/10.1136/jech.2002.006361</a></div>
+</div>
+<div id="ref-nguyen2021clarifying" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Nguyen TQ, Schmid I, Stuart EA. Clarifying causal mediation analysis for the applied researcher: Defining effects based on what we want to learn. Psychological methods American Psychological Association; 2021;26:255. </div>
+</div>
+<div id="ref-vanderweele_unification_2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">VanderWeele TJ. A unification of mediation and interaction: A four-way decomposition. Epidemiology (Cambridge, Mass) [Internet] 2014 [cited 2024 May 14];25:749–61. Available from: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4220271/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4220271/</a></div>
+</div>
+<div id="ref-valeri_mediation_2013" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Valeri L, VanderWeele TJ. Mediation analysis allowing for exposure-mediator interactions and causal interpretation: Theoretical assumptions and implementation with <span>SAS</span> and <span>SPSS</span> macros. Psychological methods [Internet] 2013 [cited 2024 May 14];18:137–50. Available from: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3659198/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3659198/</a></div>
+</div>
+<div id="ref-wang_g-computation_2015" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Wang A, Arah OA. G-computation demonstration in causal mediation analysis. European Journal of Epidemiology [Internet] 2015 [cited 2023 Jun 20];30:1119–27. Available from: <a href="https://doi.org/10.1007/s10654-015-0100-z">https://doi.org/10.1007/s10654-015-0100-z</a></div>
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../sessions/traditional-mediation-analysis.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Traditional mediation analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../appendix/dags.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">DAGs</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ License: CC BY 4.0
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
