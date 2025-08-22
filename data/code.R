@@ -3,8 +3,7 @@
 library(dplyr)
 
 ## load data
-#nhanes <- read_csv(here::here("data/nhanes_dataset.csv"))
-
+NHANES <- readr::read_csv(here::here("data/NHANES.csv"))
 
 ## check characterisitcs of variables
 colnames(NHANES)
@@ -36,19 +35,14 @@ data <- NHANES %>%
   ) %>%
   na.omit()
 
-
 table(data$w3)
 data$w3 <- relevel(factor(data$w3), ref = "College Grad")
-
 
 fita <- lm(m ~ a + w1 + w2 + w3 + w4, data = data)
 summary(fita)
 
-
-
 fitb <- lm(y ~ a + m + w1 + w2 + w3 + w4, data = data)
 summary(fitb)
-
 
 fitc <- lm(y ~ a + w1 + w2 + w3 + w4, data = data)
 summary(fitc)
@@ -59,22 +53,24 @@ direct_ma
 indirect_ma <- fita$coefficients[2] * fitb$coefficients[3]
 indirect_ma
 
-
 total_ma <- fitc$coefficients[2]
 total_ma
-
 
 indirect_mb <- fitc$coefficients[2] - fitb$coefficients[2]
 indirect_mb
 
-install.packages('mediation')
+#install.packages('mediation')
+
 library(mediation) # Mediation package
+
 set.seed(260524)
 
 # Fit mediator model
 lm_m <- lm(m ~ a + w1 + w2 + w3 + w4, data = data)
+
 # Fit outcome model
 lm_y <- lm(y ~ a + m + w1 + w2 + w3 + w4, data = data)
+
 # Run mediation analysis
 results <- mediate(lm_m, lm_y, treat = "a", mediator = "m", boot = TRUE, sims = 10) #can set to 500
 
@@ -83,6 +79,7 @@ plot(results)
 
 
 library(dplyr)
+
 ## binary outcome
 data <- NHANES %>%
   select(
@@ -111,27 +108,20 @@ data <- NHANES %>%
 str(data$y)
 levels(data$y)
 
-
 ## recode yes to 1, no to 0
 data <- data %>%
   mutate(y = if_else(y == "Yes", 1, 0))
 
 table(data$y)
 
-
 table(data$w3)
 data$w3 <- relevel(factor(data$w3), ref = "College Grad")
-
 
 fita <- lm(m ~ a + w1 + w2 + w3 + w4, data = data)
 summary(fita)
 
-
-
 fitb <- glm(y ~ a + m + w1 + w2 + w3 + w4, data = data, family = binomial(link = "logit"))
 summary(fitb)
-
-
 
 fitc <- glm(y ~ a + w1 + w2 + w3 + w4, data = data, family = binomial(link = "logit"))
 summary(fitc)
@@ -152,20 +142,23 @@ set.seed(260524)
 
 # Fit mediator model
 lm_m <- lm(m ~ a + w1 + w2 + w3 + w4, data = data)
+
 # Fit outcome model
 lm_y <- glm(y ~ a + m + w1 + w2 + w3 + w4, data = data, family = binomial(link = "logit"))
+
 # Run mediation analysis
 results <- mediate(lm_m, lm_y, treat = "a", mediator = "m", boot = TRUE, sims = 10) #can set to 500
 summary(results)
 
 test.TMint(results, conf.level=.95)
 
+#install.packages('medflex')
 
-install.packages('medflex')
 library(medflex)
+
 data <- data %>%
   mutate(a = if_else(a == "Yes", 1, 0))
 
-
 med.fit <- lm(m ~ a + w1 + w2 + w3 + w4, data = data)
-expData <- neWeight(med.fit)
+
+expData <- neWeight(med.fit) ### this line has an error message
