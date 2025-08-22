@@ -5,13 +5,13 @@ project:
   #   - slides/*.html
 
 book:
-  title: "IDEG Mediation Workshop"
+  title: "Taller de análisis de mediación causal"
   author: 
-    - Jie Zhang
-    - Daniel Witte
+    - José Luis Flores Guerrero
+    - Omar Silverman
   date: last-modified
-  repo-url: https://github.com/steno-aarhus/IDEG-mediation-course
-  site-url: https://steno-aarhus.github.io/IDEG-mediation-course
+  repo-url: https://github.com/sdca-latam/mediation-course
+  site-url: https://sdca-latam.github.io/mediation-course
   chapters:
     - index.qmd
     - part: "Preamble"
@@ -39,6 +39,7 @@ csl: includes/the-american-journal-of-clinical-nutrition.csl
 
 format: html
 
+lang: en
 editor:
   markdown:
     wrap: 72
