@@ -64,13 +64,14 @@ box.
     *Example*: Let's consider the evidence from the landmark diabetes
     prevention trials: The Diabetes Prevention Programme
     @knowler_reduction_2002, The Diabetes Prevention Study
-    @tuomilehto_prevention_2001, and The Da Qing study @pan_effects_1997.
-    These studies randomized high diabetes risk individuals to either a
-    lifestyle intervention (consisting of diet modfication in
-    combination with physical activity) or routine health advice and
-    care. The main finding was a \~58% lower risk of incidence type 2
-    diabetes in the lifestyle intervention group compared to the routine
-    care group.
+    @tuomilehto_prevention_2001, and The Da Qing study
+
+    1.  These studies randomized high diabetes risk individuals to
+        either a lifestyle intervention (consisting of diet modification
+        in combination with physical activity) or routine health advice
+        and care. The main finding was a \~58% lower risk of incidence
+        type 2 diabetes in the lifestyle intervention group compared to
+        the routine care group.
 
 ```{r, echo=FALSE}
 graph <- grViz("
@@ -119,7 +120,7 @@ digraph {
 ::: callout-note
 ## Can you find a relevant mediation question in your own research?
 
-Spend 3 minutes talking to your neighbour and discuss an mediation
+Spend 3 minutes talking to your neighbour and discuss a mediation
 question that may be relevant in your own research.
 :::
 
@@ -132,11 +133,11 @@ basic regression techniques, mediation analysis has advanced into
 **causal mediation analysis**, enabling researchers to unravel the
 intricate pathways between exposures, mediators, and outcomes.
 
-This short workshop aims to introduce the **basic statistical
-framework**, key assumptions, and practical applications of both
-**traditional** and **modern** mediation analysis techniques. Through
-**real-world data examples**, we’ll explore how mediation analysis can
-enhance your research and understanding of causal relationships.
+This workshop aims to introduce the **basic statistical framework**, key
+assumptions, and practical applications of both **traditional** and
+**causal** mediation analysis techniques. Through **real-world data
+examples**, we’ll explore how mediation analysis can enhance your
+research and understanding of causal relationships.
 
 Despite its growing importance, **mediation analysis** is often used
 incorrectly. A recent **systematic review** on the reporting quality of
