@@ -8,7 +8,7 @@ Instructors: José Luis Flores Guerrero and Omar Silverman
 
 Time duration: \~7 hours
 
-# Workshop Outline
+## Workshop Outline
 
 During this workshop, you will learn about traditional mediation
 approaches before exploring the theory of causal mediation, accompanied
