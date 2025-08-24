@@ -1,4 +1,4 @@
-# Bienvenidas al taller {.unnumbered}
+## Bienvenidas al taller {.unnumbered}
 
 Este taller introductorio forma parte de las actividades académicas de
 la [estrategia de internacionalización del Steno Diabetes Center
@@ -6,7 +6,7 @@ Aarhus](https://steno-aarhus.github.io/internationalization/) que busca
 establecer vínculos con investigadores de instituciones en América
 Latina que realizan investigación en diabetes.
 
-En este taller serás introducido al análisis de mediación tradicional
+En este taller serás introducida al análisis de mediación tradicional
 antes de entrar de lleno al análisis de mediación causal cómo método
 para investigar los mecanismos detrás de la ocurrencia de un evento. El
 taller combina presentaciones breves, con sesiones donde trabajamos con
