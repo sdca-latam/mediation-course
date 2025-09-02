@@ -3,7 +3,7 @@
 library(dplyr)
 
 ## load data
-#nhanes <- read_csv(here::here("data/nhanes_dataset.csv"))
+NHANES <- read_csv(here::here("data/NHANES.csv"))
 
 
 ## check characterisitcs of variables
@@ -67,7 +67,7 @@ total_ma
 indirect_mb <- fitc$coefficients[2] - fitb$coefficients[2]
 indirect_mb
 
-install.packages('mediation')
+#install.packages('mediation')
 library(mediation) # Mediation package
 set.seed(260524)
 
