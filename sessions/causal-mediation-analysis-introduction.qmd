@@ -164,8 +164,8 @@ be able to do so, we need a model for the mediator and a model for the
 outcome.
 
 ::: callout-note
-Causal approaches define effects using the counterfactural framework,
-before estimating th effects using statistical methods.
+Causal approaches define effects using the counterfactual framework,
+before estimating the effects using statistical methods.
 :::
 
 Model for the mediator:
@@ -184,7 +184,7 @@ Direct effect: $E[(Y(a=1,M_a=0))$ - $Y(a=0,M_a=0))]$
 Indirect effect: $E[(Y(a=1,M_a=1))$ - $Y(a=1,M_a=0))]$
 
 While regression-based approaches are commonly used, several alternative
-estimation methods are available, including Inverse probability
+estimation methods are available, including inverse probability
 weighting (IPW), G-computation, and structural equation models (SEM).
 
 Note: additional approaches also exists, but we will not focus on these
@@ -407,9 +407,9 @@ causation.](/images/causation-association.png){#fig-causation-association}
     L is greater than zero. In other words, there must be a probability
     of being assigned to each treatment level.
 
-    Image if we don't have anyone with A = 0 among those with L=1 (e.g.
-    long education), then we cannot estimate the conditional probability
-    of the outcome.
+    Imagine if we don't have anyone with A = 0 among those with L=1
+    (e.g. long education), then we cannot estimate the conditional
+    probability of the outcome.
 :::
 
 ### Confounding assumptions in Causal Mediation Analysis
