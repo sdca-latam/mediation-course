@@ -6,7 +6,7 @@ Welcome to the introductory workshop to causal mediation analysis!
 
 Instructors: José Luis Flores Guerrero and Omar Silverman
 
-Time duration: \~7 hours
+Time duration: 7 hours
 
 ## Workshop Outline
 
